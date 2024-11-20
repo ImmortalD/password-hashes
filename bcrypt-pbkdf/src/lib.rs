@@ -37,11 +37,7 @@ const BHASH_WORDS: usize = 8;
 const BHASH_OUTPUT_SIZE: usize = BHASH_WORDS * 4;
 const BHASH_SEED: &[u8; BHASH_OUTPUT_SIZE] = b"OxychromaticBlowfishSwatDynamite";
 
-pub fn _bhash(sha2_pass: &Output<Sha512>, sha2_salt: &Output<Sha512>) -> Output<Bhash> {
-    bhash(sha2_pass, sha2_salt)
-}
-
-fn bhash(sha2_pass: &Output<Sha512>, sha2_salt: &Output<Sha512>) -> Output<Bhash> {
+pub fn bhash(sha2_pass: &Output<Sha512>, sha2_salt: &Output<Sha512>) -> Output<Bhash> {
     let mut blowfish = Blowfish::bc_init_state();
 
     blowfish.salted_expand_key(sha2_salt, sha2_pass);
@@ -72,7 +68,7 @@ fn bhash(sha2_pass: &Output<Sha512>, sha2_salt: &Output<Sha512>) -> Output<Bhash
 }
 
 #[derive(Clone)]
-struct Bhash {
+pub struct Bhash {
     sha2_pass: Output<Sha512>,
     salt: Sha512,
 }
